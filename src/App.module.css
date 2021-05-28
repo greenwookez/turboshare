@@ -1,0 +1,39 @@
+.title {
+  font-size: 2em;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.message {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-template-areas: 'upload download';
+}
+
+.upload {
+  grid-area: upload;
+  justify-self: center;
+  align-self: center;
+}
+
+.download {
+  grid-area: download;
+  justify-self: center;
+  align-self: center;
+}

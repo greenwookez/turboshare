@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# cloud config
+1DayTTL.json
+cors.json
+
+# firebase config
+/src/services/config.js

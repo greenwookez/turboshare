@@ -1,32 +1,66 @@
 import firebase from 'firebase/app'
 import 'firebase/storage'
-const firebaseConfig = {
-  apiKey: 'AIzaSyBzM3BvrWRSIcXZRww9axtM5CFMDSDi6BU',
-  authDomain: 'turboshare-a5d5c.firebaseapp.com',
-  projectId: 'turboshare-a5d5c',
-  storageBucket: 'turboshare-a5d5c.appspot.com',
-  messagingSenderId: '1031477830777',
-  appId: '1:1031477830777:web:9ea532cfefd02aed65a0a8',
-  measurementId: 'G-P3XJRS318N',
-}
+
+import firebaseConfig from './config.js'
 
 firebase.initializeApp(firebaseConfig)
 
 const storage = firebase.storage()
 
-const uploadFile = (file, snapshot, error, success = null) => {
-  //generate a pin
-  const pin = Math.floor(Math.random() * 10000)
-  console.log(pin)
-  const uploadTask = storage.ref(`files/${pin}`).put(file)
-
-  uploadTask.on('state_changed', snapshot, error, success)
-
-  return pin
+const getMetadata = (path) => {
+  return storage.ref(path).getMetadata()
 }
 
-const downloadFile = (pin) => {
-  return storage.ref('files').child(pin).getDownloadURL()
+const updateMetadata = (path, metadata) => {
+  storage.ref(path).updateMetadata(metadata)
+}
+
+const uploadFile = (file, snapshot, error, success, pin) => {
+  //TODO: check if the id is unique
+  //generate an ID
+  const id = Math.floor(Math.random() * 1000000)
+    .toString()
+    .padStart(6, '0')
+
+  const path = `files/${id}/${file.name}`
+  const uploadTask = storage.ref(path).put(file)
+  uploadTask.on('state_changed', snapshot, error, () => {
+    const newMetadata = {
+      customMetadata: {
+        id,
+        pin,
+      },
+    }
+    success(id)
+    updateMetadata(path, newMetadata)
+  })
+
+  return id
+}
+
+const downloadFile = (id, pin) => {
+  const baseRef = `files/${id}`
+  return new Promise((resolve, reject) => {
+    storage
+      .ref(baseRef)
+      .listAll()
+      .then(({ items }) => {
+        if (!items[0]) {
+          reject(new Error('No file by this ID!'))
+          return
+        }
+        const resRef = `${baseRef}/${items[0].name}`
+        return getMetadata(resRef).then(({ customMetadata }) => {
+          if (customMetadata.pin !== pin) {
+            reject(new Error('Pin does not match!'))
+          }
+          return storage
+            .ref(resRef)
+            .getDownloadURL()
+            .then((url) => resolve(url))
+        })
+      })
+  })
 }
 
 export { storage, uploadFile, downloadFile, firebase as default }
