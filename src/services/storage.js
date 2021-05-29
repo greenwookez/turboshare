@@ -4,7 +4,6 @@ import 'firebase/storage'
 import firebaseConfig from './config.js'
 
 firebase.initializeApp(firebaseConfig)
-
 const storage = firebase.storage()
 
 const getMetadata = (path) => {
@@ -15,13 +14,38 @@ const updateMetadata = (path, metadata) => {
   storage.ref(path).updateMetadata(metadata)
 }
 
-const uploadFile = (file, snapshot, error, success, pin) => {
-  //TODO: check if the id is unique
-  //generate an ID
-  const id = Math.floor(Math.random() * 1000000)
+const checkId = async (id) => {
+  //returns TRUE if ID is unique and FALSE in other case
+  return storage
+    .ref(`files/${id}`)
+    .listAll()
+    .then(({ items }) => {
+      if (!items[0]) {
+        return true
+      }
+    })
+}
+
+const generateId = async () => {
+  // generate an ID
+  let id = Math.floor(Math.random() * 1000000)
     .toString()
     .padStart(6, '0')
 
+  // check generated ID for uniqueness
+  const result = await checkId(id)
+
+  if (!result) {
+    // if ID is not unique then repeat recursively
+    return generateId()
+  }
+
+  // if everything is ok return generated ID
+  return id
+}
+
+const uploadFile = async (file, snapshot, error, success, pin) => {
+  const id = await generateId()
   const path = `files/${id}/${file.name}`
   const uploadTask = storage.ref(path).put(file)
   uploadTask.on('state_changed', snapshot, error, () => {

@@ -115,7 +115,9 @@ const App = () => {
           />
         </div>
         <div className={styles.title}>Hello, this is turboshare!</div>
-        <div className={styles.message}>{message}</div>
+        <div className={styles.message}>
+          <code>{message}</code>
+        </div>
       </header>
       <div className={styles.layout}>
         <div className={styles.upload}>

@@ -26,5 +26,7 @@ yarn-error.log*
 1DayTTL.json
 cors.json
 
-# firebase config
+# firebase
+/.firebase
+.firebaserc
 /src/services/config.js
