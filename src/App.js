@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import styles from './App.module.css'
-import { uploadFile, downloadFile } from './services/storage.js'
+import { uploadFile, downloadFile } from './services/shareApi'
 
 const App = () => {
   const [file, setFile] = useState(null)
@@ -14,7 +14,6 @@ const App = () => {
   const [pin, setPin] = useState(null)
 
   const handelIdChange = (event) => {
-    //TODO: validate ID
     setId(event.target.value)
   }
 

@@ -1,18 +1,11 @@
-import firebase from 'firebase/app'
-import 'firebase/storage'
-
-import firebaseConfig from './config.js'
-
-firebase.initializeApp(firebaseConfig)
-const storage = firebase.storage()
-
-const getMetadata = (path) => {
-  return storage.ref(path).getMetadata()
-}
-
-const updateMetadata = (path, metadata) => {
-  storage.ref(path).updateMetadata(metadata)
-}
+/* eslint-disable import/no-anonymous-default-export */
+import {
+  storage,
+  getMetadata,
+  updateMetadata,
+  upload,
+  download,
+} from './storageApi'
 
 const checkId = async (id) => {
   //returns TRUE if ID is unique and FALSE in other case
@@ -47,8 +40,7 @@ const generateId = async () => {
 const uploadFile = async (file, snapshot, error, success, pin) => {
   const id = await generateId()
   const path = `files/${id}/${file.name}`
-  const uploadTask = storage.ref(path).put(file)
-  uploadTask.on('state_changed', snapshot, error, () => {
+  upload(file, path, snapshot, error, () => {
     const newMetadata = {
       customMetadata: {
         id,
@@ -73,18 +65,18 @@ const downloadFile = (id, pin) => {
           reject(new Error('No file by this ID!'))
           return
         }
+
         const resRef = `${baseRef}/${items[0].name}`
+
         return getMetadata(resRef).then(({ customMetadata }) => {
           if (customMetadata.pin !== pin) {
             reject(new Error('Pin does not match!'))
           }
-          return storage
-            .ref(resRef)
-            .getDownloadURL()
-            .then((url) => resolve(url))
+
+          return download(resRef).then((url) => resolve(url))
         })
       })
   })
 }
 
-export { storage, uploadFile, downloadFile, firebase as default }
+export { uploadFile, downloadFile }
