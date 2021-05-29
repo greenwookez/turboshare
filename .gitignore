@@ -27,5 +27,6 @@ yarn-error.log*
 cors.json
 
 # firebase
+.firebase
 .firebaserc
 /src/services/config.js
