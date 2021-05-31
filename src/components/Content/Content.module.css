@@ -1,0 +1,36 @@
+.container {
+  height: 80%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.top_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 30px;
+  grid-template-areas: 'info image';
+  width: 70%;
+  margin: 0 auto;
+}
+
+.info {
+  grid-area: info;
+  display: flex;
+  align-items: center;
+}
+
+.service {
+  grid-area: service;
+  display: flex;
+  align-items: center;
+}
+
+.image_container {
+  grid-area: image;
+  width: 100%;
+}
+
+.bottom_container {
+  width: 70%;
+  margin: 0 auto;
+}
