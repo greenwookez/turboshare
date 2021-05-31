@@ -1,0 +1,32 @@
+.progress_container {
+  margin-top: 20px;
+  height: 100%;
+  margin-bottom: 20px;
+}
+
+progress {
+  display: block;
+  height: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+progress[value]::-webkit-progress-bar {
+  border-radius: 20px;
+  background: whitesmoke;
+}
+
+progress[value] {
+  appearance: none;
+}
+
+progress[value]::-webkit-progress-value {
+  transition: 1s;
+  border-radius: 20px;
+  background-image: -webkit-linear-gradient(
+    0deg,
+    rgba(255, 117, 0, 1) 0%,
+    rgba(255, 165, 0, 1) 63%,
+    rgba(255, 194, 0, 1) 100%
+  );
+}

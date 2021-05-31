@@ -1,0 +1,26 @@
+.image_container {
+  width: 100%;
+  grid-area: image;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+/*Small devices ( phones, up to 767px)*/
+@media (max-width: 767px) {
+  .image {
+    width: 70%;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 992px) {
+  .image {
+    width: 70%;
+  }
+}

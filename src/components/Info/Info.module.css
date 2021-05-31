@@ -1,0 +1,43 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  grid-area: info;
+}
+
+.title {
+  font-size: 3em;
+  font-weight: 800;
+}
+
+.colorize {
+  background: rgb(255, 117, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 117, 0, 1) 0%,
+    rgba(255, 165, 0, 1) 63%,
+    rgba(255, 194, 0, 1) 100%
+  );
+}
+
+.colorize span {
+  background: white;
+  mix-blend-mode: screen;
+}
+
+.description {
+  margin-top: 20px;
+  font-weight: 300;
+  color: grey;
+}
+
+/*Small devices ( phones, up to 767px)*/
+@media (max-width: 767px) {
+  .title {
+    font-size: 2em;
+  }
+
+  .description {
+    font-size: 0.8em;
+  }
+}
