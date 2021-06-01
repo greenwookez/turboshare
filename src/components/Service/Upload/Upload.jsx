@@ -20,6 +20,9 @@ const Upload = ({ message, setMessage }) => {
   const [file, setFile] = useState(null)
   const [uploadStatus, setUploadStatus] = useState(0)
   const [pin, setPin] = useState(null)
+  const [uploadActive, setUploadActive] = useState(false)
+
+  const resetUploadStatus = () => setUploadStatus(0)
 
   const handelUpload = () => {
     if (!file) {
@@ -37,6 +40,7 @@ const Upload = ({ message, setMessage }) => {
       return
     }
 
+    setUploadActive(true)
     setMessage('Uploading in process. Please, wait.')
 
     const handelSnapshot = (snapshot) => {
@@ -45,8 +49,9 @@ const Upload = ({ message, setMessage }) => {
       )
     }
 
-    const handelError = (error) => {
-      console.log(error)
+    const handelError = () => {
+      setUploadActive(false)
+      setMessage('Internal error. Please, try once again.')
     }
 
     const handelSuccess = (id) => {
@@ -54,7 +59,7 @@ const Upload = ({ message, setMessage }) => {
       document.getElementById('input-pin').value = ''
       document.getElementById('input-file').value = ''
       setFile(null)
-      setUploadStatus(0)
+      setUploadActive(false)
     }
 
     uploadFile(file, handelSnapshot, handelError, handelSuccess, pin)
@@ -64,17 +69,20 @@ const Upload = ({ message, setMessage }) => {
     <FadeInComponent>
       <section className={styles.container}>
         <ProgressBar status={uploadStatus} />
-        <div className={styles.step_container}>
-          {/* <span className={styles.step}>Firstly, choose the file.</span> */}
+        <div className={uploadActive ? styles.pointer_events_none : null}>
           <div className={styles.grid_container}>
-            <FileInput file={file} setFile={setFile} message={message} />
+            <FileInput
+              file={file}
+              setFile={setFile}
+              setMessage={setMessage}
+              resetStatus={resetUploadStatus}
+            />
             <div className={styles.message_container}>
               <span className={styles.message}>{message}</span>
             </div>
           </div>
         </div>
-        <div className={styles.step_container}>
-          {/* <p className={styles.step}>Then secure your file with 4 digit PIN.</p> */}
+        <div className={uploadActive ? styles.pointer_events_none : null}>
           <div className={styles.grid_container}>
             <PinInput setPin={setPin} />
             <div className={styles.button} onClick={handelUpload}>

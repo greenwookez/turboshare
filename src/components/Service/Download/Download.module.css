@@ -9,18 +9,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-areas: 'id message';
   grid-column-gap: 40px;
-}
-
-.step_container {
-  margin-bottom: 10px;
-}
-
-.step {
-  display: block;
-  margin-bottom: 15px;
-  font-size: 1.2em;
-  font-weight: 400;
-  color: grey;
+  margin-bottom: 20px;
 }
 
 .message_container {
@@ -65,6 +54,10 @@
   fill: #fff;
 }
 
+.pointer_events_none {
+  pointer-events: none;
+}
+
 /*Small devices ( phones, up to 767px)*/
 @media (max-width: 767px) {
   .grid_container {
@@ -72,6 +65,7 @@
     grid-template-rows: max-content max-content;
     grid-template-areas: 'message' 'id';
     grid-row-gap: 20px;
+    margin-bottom: 10px;
   }
 
   .message {

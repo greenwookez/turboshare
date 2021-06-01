@@ -2,13 +2,15 @@ import { FaFileAlt as AddIcon } from 'react-icons/fa'
 
 import styles from './FileInput.module.css'
 
-const FileInput = ({ file, setFile }) => {
+const FileInput = ({ file, setFile, resetStatus, setMessage }) => {
   const handelBrowse = () => {
     setTimeout(() => {
       document.getElementById('input-pin').focus()
     }, 500)
   }
   const handelFileChange = (event) => {
+    resetStatus()
+    setMessage('')
     if (event.target.files[0]) {
       setFile(event.target.files[0])
     }

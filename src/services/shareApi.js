@@ -62,7 +62,7 @@ const downloadFile = (id, pin) => {
       .listAll()
       .then(({ items }) => {
         if (!items[0]) {
-          reject(new Error(`Can't find a file. Check the ID.`))
+          reject(new Error(1))
           return
         }
 
@@ -70,7 +70,7 @@ const downloadFile = (id, pin) => {
 
         return getMetadata(resRef).then(({ customMetadata }) => {
           if (customMetadata.pin !== pin) {
-            reject(new Error('Ooops... Wrong PIN. Try again.'))
+            reject(new Error(2))
           }
 
           return download(resRef).then((url) => resolve(url))

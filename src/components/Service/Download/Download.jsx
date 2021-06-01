@@ -17,6 +17,7 @@ const FadeInComponent = styled.div`
 const Download = ({ setMessage, message }) => {
   const [pin, setPin] = useState(null)
   const [id, setId] = useState(null)
+  const [downloadActive, setDownloadActive] = useState(false)
 
   const handelDownload = (event) => {
     event.preventDefault()
@@ -31,9 +32,11 @@ const Download = ({ setMessage, message }) => {
       return
     }
 
+    setDownloadActive(true)
     setMessage('Wait a bit. Requesting your file...')
     downloadFile(id, pin).then(
       (url) => {
+        setDownloadActive(false)
         setMessage('Hell yeah! Success.')
         document.getElementById('input-id').value = ''
         document.getElementById('input-download-pin').value = ''
@@ -44,16 +47,26 @@ const Download = ({ setMessage, message }) => {
         setId(null)
       },
       (error) => {
-        // change to code numbers
-        setMessage(error.message)
+        setDownloadActive(false)
+        console.log(error.message)
+        switch (error.message) {
+          case '1':
+            setMessage(`Can't find a file. Check the ID.`)
+            break
+          case '2':
+            setMessage('Ooops... Wrong PIN. Try again.')
+            break
+          default:
+            setMessage('Hmm... Unexpected error. Please, try again.')
+            break
+        }
       }
     )
   }
   return (
     <FadeInComponent>
       <section className={styles.container}>
-        <div className={styles.step_container}>
-          {/* <span className={styles.step}>Input the ID of a file.</span> */}
+        <div className={downloadActive ? styles.pointer_events_none : null}>
           <div className={styles.grid_container}>
             <IdInput setId={setId} />
             <div className={styles.message_container}>
@@ -61,8 +74,8 @@ const Download = ({ setMessage, message }) => {
             </div>
           </div>
         </div>
-        <div className={styles.step_container}>
-          {/* <p className={styles.step}>Ask the owner of a file for a PIN.</p> */}
+
+        <div className={downloadActive ? styles.pointer_events_none : null}>
           <div className={styles.grid_container}>
             <PinInput setPin={setPin} />
             <div className={styles.button} onClick={handelDownload}>

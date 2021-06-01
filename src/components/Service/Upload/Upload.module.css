@@ -8,18 +8,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-areas: 'file message';
   grid-column-gap: 40px;
-}
-
-.step_container {
   margin-bottom: 10px;
-}
-
-.step {
-  display: block;
-  margin-bottom: 15px;
-  font-size: 1.2em;
-  font-weight: 400;
-  color: grey;
 }
 
 .message_container {
@@ -62,6 +51,10 @@
   width: 30px;
   margin-right: 15px;
   fill: #fff;
+}
+
+.pointer_events_none {
+  pointer-events: none;
 }
 
 /*Small devices ( phones, up to 767px)*/
