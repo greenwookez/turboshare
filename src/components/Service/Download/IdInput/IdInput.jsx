@@ -18,6 +18,7 @@ const IdInput = ({ setId }) => {
         className={styles.input_id}
         onChange={handelIdChange}
         id='input-id'
+        inputmode='numeric'
       />
     </div>
   )

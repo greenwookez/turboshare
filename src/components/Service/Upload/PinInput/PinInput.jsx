@@ -19,6 +19,7 @@ const PinInput = ({ setPin }) => {
         className={styles.input_pin}
         onChange={handelPinChange}
         id='input-pin'
+        inputmode='numeric'
       />
     </div>
   )
