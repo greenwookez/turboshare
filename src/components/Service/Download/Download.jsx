@@ -34,6 +34,8 @@ const Download = ({ setMessage, message }) => {
 
     setDownloadActive(true)
     setMessage('Wait a bit. Requesting your file...')
+
+    const newWindow = window.open()
     downloadFile(id, pin).then(
       (url) => {
         setDownloadActive(false)
@@ -41,7 +43,7 @@ const Download = ({ setMessage, message }) => {
         document.getElementById('input-id').value = ''
         document.getElementById('input-download-pin').value = ''
 
-        window.open(url, '_blank')
+        newWindow.location = url
 
         setPin(null)
         setId(null)
