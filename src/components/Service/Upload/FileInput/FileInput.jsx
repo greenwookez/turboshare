@@ -11,6 +11,12 @@ const FileInput = ({ file, setFile, resetStatus, setMessage }) => {
   const handelFileChange = (event) => {
     resetStatus()
     setMessage('')
+
+    if (event.target.files[0].size > 40 * 1024 * 1024) {
+      setMessage('Your file is too big. Limited size is 40mb.')
+      return
+    }
+
     if (event.target.files[0]) {
       setFile(event.target.files[0])
     }
